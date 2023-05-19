@@ -11,7 +11,7 @@ public class DesktopLauncher {
 	public static void main (String[] arg) {
 		Lwjgl3ApplicationConfiguration config = new Lwjgl3ApplicationConfiguration();
 		config.setForegroundFPS(60);
-		config.setTitle("Gamee");
+		config.setTitle("CrazyTarakans");
 		config.setWindowedMode(SCR_WIDTH, SCR_HEIGHT);
 		new Lwjgl3Application(new Game(), config);
 	}
