@@ -1,8 +1,8 @@
-com.mygdx.gamee.android-pngs-0 D:\Games\project\gamee\android\build\generated\res\pngs\debug
-com.mygdx.gamee.android-resValues-1 D:\Games\project\gamee\android\build\generated\res\resValues\debug
-com.mygdx.gamee.android-rs-2 D:\Games\project\gamee\android\build\generated\res\rs\debug
-com.mygdx.gamee.android-mergeDebugResources-3 D:\Games\project\gamee\android\build\intermediates\incremental\debug\mergeDebugResources\merged.dir
-com.mygdx.gamee.android-mergeDebugResources-4 D:\Games\project\gamee\android\build\intermediates\incremental\debug\mergeDebugResources\stripped.dir
-com.mygdx.gamee.android-merged_res-5 D:\Games\project\gamee\android\build\intermediates\merged_res\debug
-com.mygdx.gamee.android-android-6 D:\Games\project\gamee\android\res
-com.mygdx.gamee.android-debug-7 D:\Games\project\gamee\android\src\debug\res
+com.mygdx.gamee.android-pngs-0 D:\Games\project\CrazyTarakans\android\build\generated\res\pngs\debug
+com.mygdx.gamee.android-resValues-1 D:\Games\project\CrazyTarakans\android\build\generated\res\resValues\debug
+com.mygdx.gamee.android-rs-2 D:\Games\project\CrazyTarakans\android\build\generated\res\rs\debug
+com.mygdx.gamee.android-mergeDebugResources-3 D:\Games\project\CrazyTarakans\android\build\intermediates\incremental\debug\mergeDebugResources\merged.dir
+com.mygdx.gamee.android-mergeDebugResources-4 D:\Games\project\CrazyTarakans\android\build\intermediates\incremental\debug\mergeDebugResources\stripped.dir
+com.mygdx.gamee.android-merged_res-5 D:\Games\project\CrazyTarakans\android\build\intermediates\merged_res\debug
+com.mygdx.gamee.android-android-6 D:\Games\project\CrazyTarakans\android\res
+com.mygdx.gamee.android-debug-7 D:\Games\project\CrazyTarakans\android\src\debug\res

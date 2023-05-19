@@ -45,7 +45,7 @@ public class Game extends com.badlogic.gdx.Game {
         batch.dispose();
     }
     public void generateFont(){
-        FreeTypeFontGenerator generator = new FreeTypeFontGenerator(Gdx.files.internal("intro.otf"));
+        FreeTypeFontGenerator generator = new FreeTypeFontGenerator(Gdx.files.internal("mr_insulag.otf"));
         FreeTypeFontGenerator.FreeTypeFontParameter parameter = new FreeTypeFontGenerator.FreeTypeFontParameter();
         parameter.color = new Color(1, 0.8f, 0.4f, 1);
         parameter.size = 45;

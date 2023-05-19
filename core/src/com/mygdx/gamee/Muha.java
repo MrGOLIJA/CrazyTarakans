@@ -22,6 +22,14 @@ public class Muha extends Tarakan{
         x += vx;
         y += vy;
     }
+    float getX() {
+        return x - width / 2;
+    }
+
+    float getY() {
+        return y - height / 2;
+    }
+
     boolean hit(float tx, float ty){
         if(x-width/2f<tx && tx<x+width/2f && y-height/2f<ty && ty<y+height/2f) {
             isAlive = false;

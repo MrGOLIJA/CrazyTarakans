@@ -4,17 +4,7 @@
             "outputFile": "com.mygdx.gamee.android-mergeDebugResources-3:/values/values.xml",
             "map": [
                 {
-                    "source": "D:\\Games\\project\\gamee\\android\\res\\values\\color.xml",
-                    "from": {
-                        "startLines": "2",
-                        "startColumns": "4",
-                        "startOffsets": "55",
-                        "endColumns": "55",
-                        "endOffsets": "106"
-                    }
-                },
-                {
-                    "source": "D:\\Games\\project\\gamee\\android\\res\\values\\strings.xml",
+                    "source": "D:\\Games\\project\\CrazyTarakans\\android\\res\\values\\strings.xml",
                     "from": {
                         "startLines": "3",
                         "startColumns": "4",
@@ -28,6 +18,16 @@
                         "startOffsets": "111",
                         "endColumns": "42",
                         "endOffsets": "149"
+                    }
+                },
+                {
+                    "source": "D:\\Games\\project\\CrazyTarakans\\android\\res\\values\\color.xml",
+                    "from": {
+                        "startLines": "2",
+                        "startColumns": "4",
+                        "startOffsets": "55",
+                        "endColumns": "55",
+                        "endOffsets": "106"
                     }
                 }
             ]

@@ -7,12 +7,10 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.Preferences;
 import com.badlogic.gdx.Screen;
-import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.utils.Align;
-import com.badlogic.gdx.utils.ScreenUtils;
 import com.badlogic.gdx.utils.TimeUtils;
 
 import java.util.ArrayList;
@@ -20,7 +18,7 @@ import java.util.ArrayList;
 public class ScreenGame implements Screen {
     Game c;
     InputKeyboard inputKeyboard;
-    Texture imgT;
+    Texture imgT, imgMr, imgZh;
     Texture imgB;
     Texture imgBG;
     Texture imgM;
@@ -34,37 +32,43 @@ public class ScreenGame implements Screen {
     Player[] players = new Player[6];
     Player player;
     int frags;
-    int snd = MathUtils.random(0,4);
-    long timeStart, timeCurrent, time, timeSpawn=TimeUtils.millis();
+
+    int snd = MathUtils.random(0, 4);
+    int sizeOfTarakan;
+    int delaySpawnMuha, timeRemoveT = 1000;
+    long timeStart, timeCurrent, time, timeSpawn = TimeUtils.millis();
     public static final int PLAY_GAME = 0, ENTER_NAME = 1, SHOW_TABLE = 2;
+    public static final int HARD = 0, MEDIUM = 1, LOW = 2;
     int condition = PLAY_GAME;
     TextButton btnExit;
     boolean soundOn = true;
     boolean musicOn = true;
-    float live = 3;
-    int widthBlood, heightBlood;
-
+    boolean isLose, isWin;
+    public static final int TARAKAN = 0, MURAVEI = 1, ZHUK = 2;
+    float live;
 
     public ScreenGame(Game context) {
         c = context;
         inputKeyboard = new InputKeyboard(SCR_WIDTH, SCR_HEIGHT, 10);
         // создание изображений
+        imgT = new Texture("tarakan.png");
+        imgMr = new Texture("muravei.png");
+        imgZh = new Texture("zhuk.png");
         imgB = new Texture("blood.png");
         imgM = new Texture("muha.png");
         imgBG = new Texture("floor.png");
-        imgT = new Texture("tarakan.png");
-        widthBlood = heightBlood = MathUtils.random(50,150);
         for (int i = 0; i < players.length; i++) {
             players[i] = new Player("Никто", 0);
         }
         for (int i = 0; i < sndHit.length; i++) {
-            sndHit[i] = Gdx.audio.newSound(Gdx.files.internal("hit"+i+".mp3"));
+            sndHit[i] = Gdx.audio.newSound(Gdx.files.internal("hit" + i + ".mp3"));
         }
         player = new Player("Gamer", 0);
         btnExit = new TextButton(c.font, "Exit", 200);
         sndWin[0] = Gdx.audio.newSound(Gdx.files.internal("win.mp3"));
         sndLose[0] = Gdx.audio.newSound(Gdx.files.internal("lose.mp3"));
     }
+
     @Override
     public void show() {
         gameStart();
@@ -77,20 +81,21 @@ public class ScreenGame implements Screen {
             c.touch.set(Gdx.input.getX(), Gdx.input.getY(), 0);
             c.camera.unproject(c.touch);
             if (condition == SHOW_TABLE) {
-                if (btnExit.hit(c.touch.x, c.touch.y)) c.setScreen(c.screenIntro);
+                if (btnExit.hit(c.touch.x, c.touch.y)){
+                    c.setScreen(c.screenIntro);
+                }
                 else gameStart();
             }
             if (condition == PLAY_GAME) {
                 for (int i = 0; i < tarakans.size(); i++) {
-                    if (tarakans.get(i).isAlive && tarakans.get(i).hit(c.touch.x,c.touch.y)){
-                        frags ++;
-                        if (soundOn) sndHit[MathUtils.random(0,2)].play();
+                    if (tarakans.get(i).isAlive && tarakans.get(i).hit(c.touch.x, c.touch.y)) {
+                        frags++;
+                        if (soundOn) sndHit[MathUtils.random(0, 2)].play();
                         tarakans.remove(i);
-                        time = TimeUtils.millis();
                     }
                 }
                 for (int i = 0; i < muhas.size(); i++) {
-                    if(muhas.get(i).hit(c.touch.x,c.touch.y)){
+                    if (muhas.get(i).hit(c.touch.x, c.touch.y)) {
                         live++;
                         muhas.remove(i);
                     }
@@ -107,13 +112,21 @@ public class ScreenGame implements Screen {
                 }
             }
         }
+        if(condition == PLAY_GAME){
+            if(c.screenSettings.whatLevel == LOW || c.screenSettings.whatLevel == MEDIUM) {
+                if (frags > 10){
+                    gameOver();
+                }
+            }
+            if (live < 0) {
+                gameOver();
+            }
+        }
         for (int i = 0; i < tarakans.size(); i++) {
-            if (tarakans.get(i).outOfScreen()){
-                live --;
+            if (tarakans.get(i).outOfScreen()) {
+                live--;
                 tarakans.remove(i);
             }
-            if(live == 0) gameOver();
-
         }
         if (Gdx.input.isKeyPressed(Input.Keys.BACK)) {
             c.setScreen(c.screenIntro);
@@ -124,36 +137,62 @@ public class ScreenGame implements Screen {
         if (condition == PLAY_GAME) {
             timeCurrent = TimeUtils.millis() - timeStart;
         }
+        if(c.screenSettings.whatLevel == LOW || c.screenSettings.whatLevel == MEDIUM){
+            if (frags == 10 && soundOn){
+                isWin = true;
+            }
+        }
+        if (live < 0 && soundOn) {
+            isLose = true;
+        }
         // отрисовка всей графики
         c.camera.update();
         c.batch.setProjectionMatrix(c.camera.combined);
         c.batch.begin();
         c.batch.draw(imgBG, 0, 0, SCR_WIDTH, SCR_HEIGHT);
-        if(condition !=ENTER_NAME && condition != SHOW_TABLE){
+        if (condition != ENTER_NAME && condition != SHOW_TABLE) {
             SpawnTarakan();
             SpawnMuha();
             for (int i = 1; i <= live; i++) {
-                c.batch.draw(imgT, 60*i, 20, 70, 70);
+                if(c.screenSettings.whatSkin == TARAKAN){
+                    c.batch.draw(imgT, 60 * i, 20, 70, 70);
+                }
+                if(c.screenSettings.whatSkin == MURAVEI){
+                    c.batch.draw(imgMr, 60 * i, 20, 70, 70);
+                }
+                if(c.screenSettings.whatSkin == ZHUK){
+                    c.batch.draw(imgZh, 60 * i, 20, 70, 70);
+                }
             }
             for (Tarakan t : tarakans) {
-                c.batch.draw(imgT, t.getX(), t.getY(), t.width, t.height);
+                if(c.screenSettings.whatSkin == TARAKAN) {
+                    c.batch.draw(imgT, t.getX(), t.getY(), t.width, t.height);
+                }
+                if(c.screenSettings.whatSkin == MURAVEI) {
+                    c.batch.draw(imgMr, t.getX(), t.getY(), t.width, t.height);
+                }
+                if(c.screenSettings.whatSkin == ZHUK){
+                    c.batch.draw(imgZh, t.getX(), t.getY(), t.width, t.height);
+                }
             }
-            for (Muha m : muhas){
-                c.batch.draw(imgM,m.x,m.y,m.width,m.height);
+            for (Muha m : muhas) {
+                c.batch.draw(imgM, m.x, m.y, m.width, m.height);
             }
         }
-        if (live < 0){
-            c.font.draw(c.batch,"YOU LOSE!",0, SCR_HEIGHT / 4f * 3+100, SCR_WIDTH, Align.center, true );
+        if (live < 0) {
+            c.font.draw(c.batch, "YOU LOSE!", 0, SCR_HEIGHT / 4f * 3 + 100, SCR_WIDTH, Align.center, true);
+        }
+        if(c.screenSettings.whatLevel == LOW || c.screenSettings.whatLevel == MEDIUM){
+            if (frags > 10 && live > 0) {
+                c.font.draw(c.batch, "YOU WIN!", 0, SCR_HEIGHT / 4f * 3 + 100, SCR_WIDTH, Align.center, true);
+            }
+        }
 
-        }
-        if (frags > 10 && live >= 0){
-            c.font.draw(c.batch,"YOU WIN!",0, SCR_HEIGHT / 4f * 3+100, SCR_WIDTH, Align.center, true );
-            sndWin[0].play();
-            gameOver();
-        }
         c.font.draw(c.batch, "KILLS: " + frags, 10, SCR_HEIGHT - 10);
         c.font.draw(c.batch, timeToString(timeCurrent), SCR_WIDTH - 250, SCR_HEIGHT - 10);
-        if (condition == ENTER_NAME) inputKeyboard.draw(c.batch);
+        if (condition == ENTER_NAME) {
+            inputKeyboard.draw(c.batch);
+        }
         if (condition == SHOW_TABLE) {
             c.font.draw(c.batch, tableOfRecordsToString(), 0, SCR_HEIGHT / 4f * 3, SCR_WIDTH, Align.center, true);
             btnExit.font.draw(c.batch, btnExit.text, btnExit.x, btnExit.y);
@@ -169,24 +208,34 @@ public class ScreenGame implements Screen {
         return s;
     }
 
-    void gameOver(){
+    void gameOver() {
         condition = ENTER_NAME;
         player.frags = frags;
-        if (live == 0 && soundOn) sndLose[0].play();
-        if (frags >= 10 && soundOn) sndWin[0].play();
+        if (isLose) {
+            sndLose[0].play();
+        }
+        if (isWin) {
+            sndWin[0].play();
+        }
         music[snd].dispose();
     }
+
     void loadTableOfRecords() {
         try {
-            Preferences pref = Gdx.app.getPreferences("TableOfRecords0");
+            Preferences pref = Gdx.app.getPreferences("12");
             for (int i = 0; i < players.length; i++) {
-                if (pref.contains("name" + i)) players[i].name = pref.getString("name" + i, "null");
-                if (pref.contains("frags" + i)) players[i].frags = pref.getInteger("frags" + i, 0);
+                if (pref.contains("name" + i)) {
+                    players[i].name = pref.getString("name" + i, "null");
+                }
+                if (pref.contains("frags" + i)){
+                    players[i].frags = pref.getInteger("frags" + i, 0);
+                }
             }
         } catch (Exception e) {
         }
     }
-    String fragsToString(int frags){
+
+    String fragsToString(int frags) {
         String frag = "";
         frag += frags;
         return frag;
@@ -198,14 +247,28 @@ public class ScreenGame implements Screen {
 
     private void gameStart() {
         for (int i = 0; i < music.length; i++) {
-            music[i] = Gdx.audio.newSound(Gdx.files.internal("main"+i+".mp3"));
+            music[i] = Gdx.audio.newSound(Gdx.files.internal("main" + i + ".mp3"));
         }
-        if(c.screenGame.musicOn) music[snd].play();
+        if (c.screenGame.musicOn) {
+            music[snd].play();
+        }
         condition = PLAY_GAME;
         frags = 0;
         timeStart = TimeUtils.millis();
         loadTableOfRecords();
-        live = 3;
+        if(c.screenSettings.whatLevel == HARD) {
+            delaySpawnMuha = 5000;
+            sizeOfTarakan = 10;
+        }
+        if(c.screenSettings.whatLevel == MEDIUM) {
+            delaySpawnMuha = 2500;
+            sizeOfTarakan = 7;
+        }
+        if(c.screenSettings.whatLevel == LOW){
+            delaySpawnMuha = 1000;
+            sizeOfTarakan = 5;
+        }
+        live = 5;
     }
 
     String points(String name, int length) {
@@ -217,7 +280,7 @@ public class ScreenGame implements Screen {
 
     void saveTableOfRecords() {
         try {
-            Preferences pref = Gdx.app.getPreferences("TableOfRecords0");
+            Preferences pref = Gdx.app.getPreferences("12");
             for (int i = 0; i < players.length; i++) {
                 pref.putString("name" + i, players[i].name);
                 pref.putInteger("frags" + i, players[i].frags);
@@ -228,9 +291,6 @@ public class ScreenGame implements Screen {
     }
 
     void sortPlayers() {
-        for (int i = 0; i < players.length; i++) {
-            if (players[i].frags == 0) players[i].frags = Integer.MIN_VALUE;
-        }
         for (int j = 0; j < players.length; j++) {
             for (int i = 0; i < players.length - 1; i++) {
                 if (players[i].frags < players[i + 1].frags) {
@@ -240,19 +300,16 @@ public class ScreenGame implements Screen {
                 }
             }
         }
-        for (int i = 0; i < players.length; i++){
-            if (players[i].frags == Integer.MAX_VALUE) players[i].frags = 0;
-        }
     }
 
     void SpawnTarakan() {
-        if (tarakans.size() < 5 && TimeUtils.millis() > time + 100) {
+        if (tarakans.size() < sizeOfTarakan && TimeUtils.millis() > time + 500) {
             tarakans.add(new Tarakan());
         }
     }
 
-    void SpawnMuha(){
-        if (TimeUtils.millis()>timeSpawn+10000){
+    void SpawnMuha() {
+        if (TimeUtils.millis() > timeSpawn + delaySpawnMuha) {
             muhas.add(new Muha());
             timeSpawn = TimeUtils.millis();
         }

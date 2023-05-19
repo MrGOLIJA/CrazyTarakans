@@ -1,4 +1,4 @@
-#Wed Mar 29 14:04:19 GMT+06:00 2023
-base.0=D\:\\Games\\project\\gamee\\android\\build\\intermediates\\dex\\debug\\mergeDexDebug\\classes.dex
+#Tue May 16 11:27:22 GMT+06:00 2023
+base.0=D\:\\Games\\project\\CrazyTarakans\\android\\build\\intermediates\\dex\\debug\\mergeDexDebug\\classes.dex
 renamed.0=classes.dex
 path.0=classes.dex

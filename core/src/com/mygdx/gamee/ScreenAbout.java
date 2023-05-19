@@ -50,7 +50,7 @@ String textAbout =
         c.batch.setProjectionMatrix(c.camera.combined);
         c.batch.begin();
         c.batch.draw(imgBG, 0, 0, SCR_WIDTH, SCR_HEIGHT);
-        c.font.draw(c.batch, textAbout, 100, 500);
+        c.font.draw(c.batch, textAbout, 100, 700);
         btnBack.font.draw(c.batch, btnBack.text, btnBack.x, btnBack.y);
         c.batch.end();
     }

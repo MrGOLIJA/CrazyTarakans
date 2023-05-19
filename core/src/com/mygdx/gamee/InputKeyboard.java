@@ -21,13 +21,13 @@ public class InputKeyboard {
     private final int textLength; // длина вводимого текста
 
     private BitmapFont font;
-    String fontName = "intro.otf";
+    String fontName = "mr_insulag.otf";
 
     private String text = ""; // вводимый текст
     private static final String LETTERS_EN_CAPS = "1234567890-~QWERTYUIOP+?^ASDFGHJKL;'`ZXCVBNM<> |";
-    private static final String LETTERS_EN_LOW  = "!@#$%:&*()_~qwertyuiop[]^asdfghjkl:'`zxcvbnm,. |";
+    private static final String LETTERS_EN_LOW = "!@#$%:&*()_~qwertyuiop[]^asdfghjkl:'`zxcvbnm,. |";
     private static final String LETTERS_RU_CAPS = "1234567890-~ЙЦУКЕНГШЩЗХЪ^ФЫВАПРОЛДЖЭ`ЯЧСМИТЬБЮЁ|";
-    private static final String LETTERS_RU_LOW  = "!@#$%:&*()_~йцукенгшщзхъ^фывапролджэ`ячсмитьбюё|";
+    private static final String LETTERS_RU_LOW = "!@#$%:&*()_~йцукенгшщзхъ^фывапролджэ`ячсмитьбюё|";
     private String letters = LETTERS_EN_CAPS;
 
     private final Texture imgAtlasKeys; // все изображения кнопок
@@ -39,44 +39,44 @@ public class InputKeyboard {
     private int keyPressed = -1; // код нажатой кнопки
     private final Array<Key> keys = new Array<>(); // список всех кноп
 
-    public InputKeyboard(float scrWidth, float scrHeight, int textLength){
+    public InputKeyboard(float scrWidth, float scrHeight, int textLength) {
         generateFont();
         this.textLength = textLength; // количество вводимых символов
 
         imgAtlasKeys = new Texture("keys.png");
         imgKeyUP = new TextureRegion(imgAtlasKeys, 0, 0, 256, 256);
         imgKeyDown = new TextureRegion(imgAtlasKeys, 256, 0, 256, 256);
-        imgEditText = new TextureRegion(imgAtlasKeys, 256*2, 0, 256, 256);
-        imgKeyBS = new TextureRegion(imgAtlasKeys, 256*3, 0, 256, 256);
-        imgKeyEnter = new TextureRegion(imgAtlasKeys, 256*4, 0, 256, 256);
-        imgKeyCL = new TextureRegion(imgAtlasKeys, 256*5, 0, 256, 256);
-        imgKeySW = new TextureRegion(imgAtlasKeys, 256*6, 0, 256, 256);
+        imgEditText = new TextureRegion(imgAtlasKeys, 256 * 2, 0, 256, 256);
+        imgKeyBS = new TextureRegion(imgAtlasKeys, 256 * 3, 0, 256, 256);
+        imgKeyEnter = new TextureRegion(imgAtlasKeys, 256 * 4, 0, 256, 256);
+        imgKeyCL = new TextureRegion(imgAtlasKeys, 256 * 5, 0, 256, 256);
+        imgKeySW = new TextureRegion(imgAtlasKeys, 256 * 6, 0, 256, 256);
 
         // задаём параметры клавиатуры
-        width = scrWidth/21f*20; // ширина и высота клавиатуры
-        height = scrHeight/5f*3;
-        x = (scrWidth-width)/2; // координаты вывода клавиатуры
-        y = height+scrHeight/30f;
-        keyWidth = width/13; // ширина и высота каждой клавиши
-        keyHeight = height/5;
+        width = scrWidth / 21f * 20; // ширина и высота клавиатуры
+        height = scrHeight / 5f * 3;
+        x = (scrWidth - width) / 2; // координаты вывода клавиатуры
+        y = height + scrHeight / 30f;
+        keyWidth = width / 13; // ширина и высота каждой клавиши
+        keyHeight = height / 5;
         padding = 8; // отступы между кнопками
         createKBD();
     }
 
     // создание кнопок клавиатуры по рядам
-    private void createKBD(){
+    private void createKBD() {
         int j = 0;
         for (int i = 0; i < 12; i++, j++)
-            keys.add(new Key(i*keyWidth+x+keyWidth/2, y-keyHeight*2, keyWidth-padding, keyHeight-padding, letters.charAt(j)));
+            keys.add(new Key(i * keyWidth + x + keyWidth / 2, y - keyHeight * 2, keyWidth - padding, keyHeight - padding, letters.charAt(j)));
 
         for (int i = 0; i < 13; i++, j++)
-            keys.add(new Key(i*keyWidth+x, y-keyHeight*3, keyWidth-padding, keyHeight-padding, letters.charAt(j)));
+            keys.add(new Key(i * keyWidth + x, y - keyHeight * 3, keyWidth - padding, keyHeight - padding, letters.charAt(j)));
 
         for (int i = 0; i < 12; i++, j++)
-            keys.add(new Key(i*keyWidth+x+keyWidth/2, y-keyHeight*4, keyWidth-padding, keyHeight-padding, letters.charAt(j)));
+            keys.add(new Key(i * keyWidth + x + keyWidth / 2, y - keyHeight * 4, keyWidth - padding, keyHeight - padding, letters.charAt(j)));
 
         for (int i = 0; i < 11; i++, j++)
-            keys.add(new Key(i*keyWidth+x+keyWidth, y-keyHeight*5, keyWidth-padding, keyHeight-padding, letters.charAt(j)));
+            keys.add(new Key(i * keyWidth + x + keyWidth, y - keyHeight * 5, keyWidth - padding, keyHeight - padding, letters.charAt(j)));
     }
 
     // задаём/меняем раскладку символов на всех кнопках
@@ -96,24 +96,24 @@ public class InputKeyboard {
     }
 
     // рисуем клавиатуру и вводимый текст
-    public void draw(SpriteBatch batch){
+    public void draw(SpriteBatch batch) {
         // рисуем кнопки
         for (int i = 0; i < keys.size; i++) {
             drawImgKey(batch, i, keys.get(i).x, keys.get(i).y, keys.get(i).width, keys.get(i).height);
         }
         // рисуем вводимый текст
-        batch.draw(imgEditText, 2*keyWidth+x+keyWidth/2, y-keyHeight, width-5*keyWidth-padding, keyHeight);
-        font.draw(batch, text, 2*keyWidth+x+keyWidth/2, keys.get(0).letterY+keyHeight, width-5*keyWidth-padding, Align.center, false);
+        batch.draw(imgEditText, 2 * keyWidth + x + keyWidth / 2, y - keyHeight, width - 5 * keyWidth - padding, keyHeight);
+        font.draw(batch, text, 2 * keyWidth + x + keyWidth / 2, keys.get(0).letterY + keyHeight, width - 5 * keyWidth - padding, Align.center, false);
     }
 
     // рисуем каждую кнопку
-    private void drawImgKey(SpriteBatch batch, int i, float x, float y, float width, float height){
+    private void drawImgKey(SpriteBatch batch, int i, float x, float y, float width, float height) {
         float dx, dy;
-        if(keyPressed == i){ // если нажата, то рисуем нажатую кнопку
+        if (keyPressed == i) { // если нажата, то рисуем нажатую кнопку
             batch.draw(imgKeyDown, x, y, width, height);
             dx = 2;
             dy = -2;
-            if(TimeUtils.millis() - timeStart > timeDuration){
+            if (TimeUtils.millis() - timeStart > timeDuration) {
                 keyPressed = -1;
             }
         } else { // рисуем отжатую кнопку
@@ -124,26 +124,34 @@ public class InputKeyboard {
 
         // выводим символы на кнопки
         switch (letters.charAt(i)) {
-            case '~': batch.draw(imgKeyBS, x+dx, y+dy, width, height); break; // backspace
-            case '^': batch.draw(imgKeyEnter, x+dx, y+dy, width, height); break; // enter
-            case '`': batch.draw(imgKeyCL, x+dx, y+dy, width, height); break; // caps lock
-            case '|': batch.draw(imgKeySW, x+dx, y+dy, width, height); break; // ru/en switcher
+            case '~':
+                batch.draw(imgKeyBS, x + dx, y + dy, width, height);
+                break; // backspace
+            case '^':
+                batch.draw(imgKeyEnter, x + dx, y + dy, width, height);
+                break; // enter
+            case '`':
+                batch.draw(imgKeyCL, x + dx, y + dy, width, height);
+                break; // caps lock
+            case '|':
+                batch.draw(imgKeySW, x + dx, y + dy, width, height);
+                break; // ru/en switcher
             default: // все прочие символы
-                font.draw(batch, ""+keys.get(i).letter, keys.get(i).letterX+dx, keys.get(i).letterY+dy);
+                font.draw(batch, "" + keys.get(i).letter, keys.get(i).letterX + dx, keys.get(i).letterY + dy);
         }
     }
 
     // проверяем, куда нажали
-    public boolean endOfEdit(float tx, float ty){
+    public boolean endOfEdit(float tx, float ty) {
         for (int i = 0; i < keys.size; i++) {
-            if(!keys.get(i).hit(tx, ty).equals("")){
+            if (!keys.get(i).hit(tx, ty).equals("")) {
                 keyPressed = i;
                 setText(i);
                 timeStart = TimeUtils.millis();
             }
         }
         // окончание редактирования ввода (нажата кнопка enter)
-        if(endOfEdit){
+        if (endOfEdit) {
             endOfEdit = false;
             return true;
         }
@@ -151,33 +159,33 @@ public class InputKeyboard {
     }
 
     // обработка нажатия кнопок
-    private void setText(int i){
+    private void setText(int i) {
         switch (letters.charAt(i)) {
             case '~': // backspace
-                if(text.length()>0) text = text.substring(0, text.length() - 1);
+                if (text.length() > 0) text = text.substring(0, text.length() - 1);
                 break;
             case '^': // enter
-                if(text.length()==0) break;
+                if (text.length() == 0) break;
                 endOfEdit = true;
                 break;
             case '`': // caps lock
-                if(letters.charAt(12) == 'Q') letters = LETTERS_EN_LOW;
-                else if(letters.charAt(12) == 'q') letters = LETTERS_EN_CAPS;
-                else if(letters.charAt(12) == 'Й') letters = LETTERS_RU_LOW;
-                else if(letters.charAt(12) == 'й') letters = LETTERS_RU_CAPS;
+                if (letters.charAt(12) == 'Q') letters = LETTERS_EN_LOW;
+                else if (letters.charAt(12) == 'q') letters = LETTERS_EN_CAPS;
+                else if (letters.charAt(12) == 'Й') letters = LETTERS_RU_LOW;
+                else if (letters.charAt(12) == 'й') letters = LETTERS_RU_CAPS;
                 setCharsKBD();
                 break;
             case '|': // ru/en switcher
-                if(letters.charAt(12) == 'й') letters = LETTERS_EN_LOW;
-                else if(letters.charAt(12) == 'Й') letters = LETTERS_EN_CAPS;
-                else if(letters.charAt(12) == 'q') letters = LETTERS_RU_LOW;
-                else if(letters.charAt(12) == 'Q') letters = LETTERS_RU_CAPS;
+                if (letters.charAt(12) == 'й') letters = LETTERS_EN_LOW;
+                else if (letters.charAt(12) == 'Й') letters = LETTERS_EN_CAPS;
+                else if (letters.charAt(12) == 'q') letters = LETTERS_RU_LOW;
+                else if (letters.charAt(12) == 'Q') letters = LETTERS_RU_CAPS;
                 setCharsKBD();
                 break;
             default: // ввод символов
-                if(text.length()< textLength) text += letters.charAt(i);
-                if(text.length() == 1 && letters == LETTERS_EN_CAPS) letters = LETTERS_EN_LOW;
-                if(text.length() == 1 && letters == LETTERS_RU_CAPS) letters = LETTERS_RU_LOW;
+                if (text.length() < textLength) text += letters.charAt(i);
+                if (text.length() == 1 && letters == LETTERS_EN_CAPS) letters = LETTERS_EN_LOW;
+                if (text.length() == 1 && letters == LETTERS_RU_CAPS) letters = LETTERS_RU_LOW;
                 setCharsKBD();
         }
     }
@@ -194,25 +202,25 @@ public class InputKeyboard {
         char letter; // символ на кнопке
         float letterX, letterY; // координаты вывода символа
 
-        private Key (float x, float y, float width, float height, char letter) {
+        private Key(float x, float y, float width, float height, char letter) {
             this.x = x;
             this.y = y;
             this.width = width;
             this.height = height;
             this.letter = letter;
-            letterX = x + width/3;
-            letterY = y + height - (height - font.getCapHeight())/2;
+            letterX = x + width / 3;
+            letterY = y + height - (height - font.getCapHeight()) / 2;
         }
 
-        private String hit(float tx, float ty){
-            if (x<tx && tx<x+width && y<ty && ty<y+height) {
+        private String hit(float tx, float ty) {
+            if (x < tx && tx < x + width && y < ty && ty < y + height) {
                 return "" + letter;
             }
             return "";
         }
     }
 
-    private void generateFont(){
+    private void generateFont() {
         FreeTypeFontGenerator generator = new FreeTypeFontGenerator(Gdx.files.internal(fontName));
         FreeTypeFontGenerator.FreeTypeFontParameter parameter = new FreeTypeFontGenerator.FreeTypeFontParameter();
         parameter.color = new Color(1, 1, 1, 1);
@@ -229,7 +237,7 @@ public class InputKeyboard {
         font.getRegion().getTexture().setFilter(Texture.TextureFilter.Linear, Texture.TextureFilter.Linear);
     }
 
-    public void dispose(){
+    public void dispose() {
         imgAtlasKeys.dispose();
         font.dispose();
     }
