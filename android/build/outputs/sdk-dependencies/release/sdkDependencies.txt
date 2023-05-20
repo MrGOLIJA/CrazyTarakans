@@ -1,0 +1,98 @@
+# List of SDK dependencies of this app, this information is also included in an encrypted form in the APK.
+# For more information visit: https://d.android.com/r/tools/dependency-metadata
+
+library {
+  maven_library {
+    groupId: "com.badlogicgames.gdx"
+    artifactId: "gdx-backend-android"
+    version: "1.11.0"
+  }
+  digests {
+    sha256: "\235X\036#\253/\376}\312\021\267\347\300^\221\231XS//\216\363\216^\222\257\375\3450\237i\256"
+  }
+  repo_index {
+  }
+}
+library {
+  maven_library {
+    groupId: "com.badlogicgames.gdx"
+    artifactId: "gdx"
+    version: "1.11.0"
+  }
+  digests {
+    sha256: "#\025<g\341\225`dN\017\241#R2\265\330^\344\034\362\211(\034-\247\354\214(\343WP\271"
+  }
+  repo_index {
+  }
+}
+library {
+  maven_library {
+    groupId: "com.badlogicgames.gdx"
+    artifactId: "gdx-jnigen-loader"
+    version: "2.3.1"
+  }
+  digests {
+    sha256: "d\220\335\242%\246\034v\002\302{\276\304\344\201\023\177\365\225\370\316\v-\333\244\024\360\303@j\356`"
+  }
+  repo_index {
+  }
+}
+library {
+  maven_library {
+    groupId: "com.badlogicgames.gdx"
+    artifactId: "gdx-freetype"
+    version: "1.11.0"
+  }
+  digests {
+    sha256: "\273\230O\325\0245\335\200\215\320v\222X\352\263&)\027\033_N\236C\363\232\364T>\036\304\337\""
+  }
+  repo_index {
+  }
+}
+library_dependencies {
+  library_dep_index: 1
+}
+library_dependencies {
+  library_index: 1
+  library_dep_index: 2
+}
+library_dependencies {
+  library_index: 3
+  library_dep_index: 1
+}
+module_dependencies {
+  module_name: "base"
+  dependency_index: 0
+  dependency_index: 3
+  dependency_index: 1
+}
+repositories {
+  maven_repo {
+    url: "https://repo.maven.apache.org/maven2/"
+  }
+}
+repositories {
+  maven_repo {
+    url: "https://dl.google.com/dl/android/maven2/"
+  }
+}
+repositories {
+  maven_repo {
+    url: "https://plugins.gradle.org/m2"
+  }
+}
+repositories {
+  maven_repo {
+    url: "https://oss.sonatype.org/content/repositories/snapshots/"
+  }
+}
+repositories {
+  maven_repo {
+    url: "https://oss.sonatype.org/content/repositories/releases/"
+  }
+}
+repositories {
+  maven_repo {
+    url: "https://jitpack.io"
+  }
+}

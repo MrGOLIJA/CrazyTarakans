@@ -1,0 +1,8 @@
+com.mygdx.gamee.android-pngs-0 D:\Games\CrazyTarakans\android\build\generated\res\pngs\release
+com.mygdx.gamee.android-resValues-1 D:\Games\CrazyTarakans\android\build\generated\res\resValues\release
+com.mygdx.gamee.android-rs-2 D:\Games\CrazyTarakans\android\build\generated\res\rs\release
+com.mygdx.gamee.android-mergeReleaseResources-3 D:\Games\CrazyTarakans\android\build\intermediates\incremental\release\mergeReleaseResources\merged.dir
+com.mygdx.gamee.android-mergeReleaseResources-4 D:\Games\CrazyTarakans\android\build\intermediates\incremental\release\mergeReleaseResources\stripped.dir
+com.mygdx.gamee.android-merged_res-5 D:\Games\CrazyTarakans\android\build\intermediates\merged_res\release
+com.mygdx.gamee.android-android-6 D:\Games\CrazyTarakans\android\res
+com.mygdx.gamee.android-release-7 D:\Games\CrazyTarakans\android\src\release\res

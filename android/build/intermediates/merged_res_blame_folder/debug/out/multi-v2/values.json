@@ -4,7 +4,7 @@
             "outputFile": "com.mygdx.gamee.android-mergeDebugResources-3:/values/values.xml",
             "map": [
                 {
-                    "source": "D:\\Games\\project\\CrazyTarakans\\android\\res\\values\\strings.xml",
+                    "source": "D:\\Games\\CrazyTarakans\\android\\res\\values\\strings.xml",
                     "from": {
                         "startLines": "3",
                         "startColumns": "4",
@@ -21,7 +21,7 @@
                     }
                 },
                 {
-                    "source": "D:\\Games\\project\\CrazyTarakans\\android\\res\\values\\color.xml",
+                    "source": "D:\\Games\\CrazyTarakans\\android\\res\\values\\color.xml",
                     "from": {
                         "startLines": "2",
                         "startColumns": "4",
